@@ -1,0 +1,39 @@
+{"groups": [
+  {
+    "name": "reflcrypt",
+    "type": "com.swcns.reflcrypt.ReflcryptProperties",
+    "sourceType": "com.swcns.reflcrypt.ReflcryptProperties"
+  }
+],"properties": [
+  {
+    "name": "reflcrypt.algorithm",
+    "type": "java.lang.String",
+    "sourceType": "com.swcns.reflcrypt.ReflcryptProperties"
+  },
+  {
+    "name": "reflcrypt.key",
+    "type": "java.lang.String",
+    "sourceType": "com.swcns.reflcrypt.ReflcryptProperties"
+  },
+  {
+    "name": "reflcrypt.hash",
+    "type": "java.lang.String",
+    "sourceType": "com.swcns.reflcrypt.ReflcryptProperties"
+  },
+  {
+    "name": "reflcrypt.iv",
+    "type": "java.lang.String",
+    "sourceType": "com.swcns.reflcrypt.ReflcryptProperties"
+  }
+],"hints": [
+  {
+    "name": "reflcrypt.algorithm",
+    "values": [
+      {
+        "value": "AES/CBC/PKCS5Padding",
+        "description": "AES 암/복호화를 CBC 블록으로 진행합니다"
+      }
+    ]
+  }
+]}
+
