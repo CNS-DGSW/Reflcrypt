@@ -1,15 +1,15 @@
 package com.swcns.reflcrypt;
 
-import com.swcns.reflcrypt.annotation.EncryptedField;
+import com.swcns.reflcrypt.annotation.SecurityField;
 import lombok.*;
 
 @ToString
 @AllArgsConstructor @Builder
 @NoArgsConstructor @Getter
 public class TestObject {
-    @EncryptedField
+    @SecurityField
     private String encryptedField1;
-    @EncryptedField
+    @SecurityField
     private byte[] encryptedField2;
 
     private Integer nonEncryptedField1;
