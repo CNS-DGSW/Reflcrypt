@@ -1,19 +1,28 @@
 package com.swcns.reflcrypt;
 
+import com.swcns.reflcrypt.aspect.ReflcryptAspect;
 import com.swcns.reflcrypt.core.EncryptionManager;
 import com.swcns.reflcrypt.util.ObjectDecryptor;
 import com.swcns.reflcrypt.util.ObjectEncryptor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @RequiredArgsConstructor
+@Import(AnnotationAwareAspectJAutoProxyCreator.class)
 @EnableConfigurationProperties(ReflcryptProperties.class)
 @Configuration
 public class ReflcryptAutoConfiguration {
 
     private final ReflcryptProperties properties;
+
+    @Bean
+    public ReflcryptAspect reflcryptAspect() {
+        return new ReflcryptAspect(encryptor(), decryptor());
+    }
 
     @Bean
     public EncryptionManager manager() {

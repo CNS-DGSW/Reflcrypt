@@ -1,7 +1,9 @@
 package com.swcns.reflcrypt.aspect;
 
+import com.swcns.reflcrypt.annotation.SecurityParam;
 import com.swcns.reflcrypt.util.ObjectDecryptor;
 import com.swcns.reflcrypt.util.ObjectEncryptor;
+import com.swcns.reflcrypt.util.ReflectionUtil;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,7 +18,10 @@ public class ReflcryptAspect {
     @Around("@annotation(com.swcns.reflcrypt.annotation.EncryptParams)")
     public Object encryptParams(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
-        for(int i = 0; i < args.length; i++) args[i] = encryptor.getEncryptedObject(args);
+        for(int i = 0; i < args.length; i++) {
+            if(ReflectionUtil.isParamHasAnnotation(i, joinPoint, SecurityParam.class))
+                args[i] = encryptor.getEncryptedObject(args[i]);
+        }
 
         return joinPoint.proceed(args);
     }
@@ -29,7 +34,10 @@ public class ReflcryptAspect {
     @Around("@annotation(com.swcns.reflcrypt.annotation.DecryptParams)")
     public Object decryptParams(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
-        for(int i = 0; i < args.length; i++) args[i] = decryptor.getDecryptedObject(args);
+        for(int i = 0; i < args.length; i++) {
+            if(ReflectionUtil.isParamHasAnnotation(i, joinPoint, SecurityParam.class))
+                args[i] = decryptor.getDecryptedObject(args[i]);
+        }
 
         return joinPoint.proceed(args);
     }
