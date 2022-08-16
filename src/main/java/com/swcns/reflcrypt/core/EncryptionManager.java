@@ -1,8 +1,8 @@
 package com.swcns.reflcrypt.core;
 
 import com.swcns.reflcrypt.ReflcryptProperties;
+import com.swcns.reflcrypt.util.ReflectionUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -54,9 +54,9 @@ public class EncryptionManager {
     public <T> T encrypt(T data) throws Exception {
         byte[] rawData;
 
-        if(data.getClass().isAssignableFrom(String.class)) {
+        if(ReflectionUtil.isCharacterType(data)) {
             rawData = ((String)data).getBytes(StandardCharsets.UTF_8);
-        } else if(data.getClass().isAssignableFrom(byte[].class) || data.getClass().isAssignableFrom(Byte[].class)) {
+        } else if(ReflectionUtil.isBinaryType(data)) {
             rawData = (byte[])data;
         } else {
             throw new InvalidParameterException(String.format("Type %s is not supported.", data.getClass().getName()));
@@ -64,9 +64,9 @@ public class EncryptionManager {
 
         rawData = processBytes(rawData, Cipher.ENCRYPT_MODE);
 
-        if(data.getClass().isAssignableFrom(String.class)) {
+        if(ReflectionUtil.isCharacterType(data)) {
             return (T)(Base64.getEncoder().encodeToString(rawData));
-        } else if(data.getClass().isAssignableFrom(byte[].class) || data.getClass().isAssignableFrom(Byte[].class)) {
+        } else if(ReflectionUtil.isBinaryType(data)) {
             return (T)rawData;
         } else {
             throw new InvalidParameterException(String.format("Type %s is not supported.", data.getClass().getName()));
@@ -76,9 +76,9 @@ public class EncryptionManager {
     public <T> T decrypt(T data) throws Exception {
         byte[] rawData;
 
-        if(data.getClass().isAssignableFrom(String.class)) {
+        if(ReflectionUtil.isCharacterType(data)) {
             rawData = Base64.getDecoder().decode((String)data);
-        } else if(data.getClass().isAssignableFrom(byte[].class) || data.getClass().isAssignableFrom(Byte[].class)) {
+        } else if(ReflectionUtil.isBinaryType(data)) {
             rawData = (byte[])data;
         } else {
             throw new InvalidParameterException(String.format("Type %s is not supported.", data.getClass().getName()));
@@ -86,9 +86,9 @@ public class EncryptionManager {
 
         rawData = processBytes(rawData, Cipher.DECRYPT_MODE);
 
-        if(data.getClass().isAssignableFrom(String.class)) {
+        if(ReflectionUtil.isCharacterType(data)) {
             return (T)(new String(rawData, Charset.forName("utf8")));
-        } else if(data.getClass().isAssignableFrom(byte[].class) || data.getClass().isAssignableFrom(Byte[].class)) {
+        } else if(ReflectionUtil.isBinaryType(data)) {
             return (T)rawData;
         } else {
             throw new InvalidParameterException(String.format("Type %s is not supported.", data.getClass().getName()));

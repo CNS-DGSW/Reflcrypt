@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 해당하는 필드를 암호화합니다
+ * 파라미터를 암호화 및 복호화 대상으로 설정합니다
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EncryptedField {
+public @interface SecurityParam {
 }
