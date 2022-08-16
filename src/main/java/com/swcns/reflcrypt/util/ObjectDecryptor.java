@@ -32,11 +32,15 @@ public class ObjectDecryptor {
         return instance;
     }
 
-    public <T> T getDecryptedObject(T obj) throws Exception {
-        if(ReflectionUtil.isAbleToEncryptInstance(obj)) {
-            return decryptInstance(obj);
-        } else {
-            return decryptFields(obj);
+    public <T> T getDecryptedObject(T obj) {
+        try {
+            if(ReflectionUtil.isAbleToEncryptInstance(obj)) {
+                return decryptInstance(obj);
+            } else {
+                return decryptFields(obj);
+            }
+        } catch (Exception ex) {
+            throw new UnsupportedOperationException("Unable to decrypt: " + obj.getClass().getName());
         }
     }
 }

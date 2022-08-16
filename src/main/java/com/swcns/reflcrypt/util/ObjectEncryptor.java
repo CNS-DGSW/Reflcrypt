@@ -30,11 +30,15 @@ public class ObjectEncryptor {
         return instance;
     }
 
-    public <T> T getEncryptedObject(T obj) throws Exception {
-        if(ReflectionUtil.isAbleToEncryptInstance(obj)) {
-            return encryptInstance(obj);
-        } else {
-            return encryptFields(obj);
+    public <T> T getEncryptedObject(T obj) {
+        try {
+            if (ReflectionUtil.isAbleToEncryptInstance(obj)) {
+                return encryptInstance(obj);
+            } else {
+                return encryptFields(obj);
+            }
+        } catch (Exception ex) {
+            throw new UnsupportedOperationException("Unable to encrypt: " + obj.getClass().getName());
         }
     }
 }
