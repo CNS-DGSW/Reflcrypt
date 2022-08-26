@@ -4,6 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 public class ReflectionUtil {
     public static boolean isClassContainsIn(Object obj, Class[] classes) {
@@ -53,5 +54,9 @@ public class ReflectionUtil {
     public static boolean isParamHasAnnotation(int paramPosition, ProceedingJoinPoint joinPoint, Class<?> annotation) {
         return Arrays.stream(((MethodSignature) joinPoint.getSignature()).getMethod().getParameterAnnotations()[paramPosition])
                 .anyMatch(it -> it.annotationType().isAssignableFrom(annotation));
+    }
+
+    public static <T> boolean isCollectionType(T obj) {
+        return Collection.class.isAssignableFrom(obj.getClass());
     }
 }

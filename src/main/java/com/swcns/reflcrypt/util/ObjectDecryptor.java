@@ -5,7 +5,13 @@ import com.swcns.reflcrypt.core.EncryptionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.PrintStream;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -36,6 +42,11 @@ public class ObjectDecryptor {
         try {
             if(ReflectionUtil.isAbleToEncryptInstance(obj)) {
                 return decryptInstance(obj);
+            } else if(ReflectionUtil.isCollectionType(obj)) {
+                Collection<?> result = (Collection<?>) obj;
+                return (T) result.stream()
+                        .map(it -> getDecryptedObject(it))
+                        .collect(Collectors.toList());
             } else {
                 return decryptFields(obj);
             }

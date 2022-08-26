@@ -5,6 +5,8 @@ import com.swcns.reflcrypt.core.EncryptionManager;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ObjectEncryptor {
@@ -34,6 +36,11 @@ public class ObjectEncryptor {
         try {
             if (ReflectionUtil.isAbleToEncryptInstance(obj)) {
                 return encryptInstance(obj);
+            } else if(ReflectionUtil.isCollectionType(obj)) {
+                Collection<?> result = (Collection<?>) obj;
+                return (T) result.stream()
+                        .map(it -> getEncryptedObject(it))
+                        .collect(Collectors.toList());
             } else {
                 return encryptFields(obj);
             }
