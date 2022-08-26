@@ -3,3 +3,10 @@ reflcrypt:
   key: WOWILOVEIT
   hash: WOW
   iv: AAAABBBBCCCCDDDD
+
+logging:
+  file:
+    name: logs/test.log
+  pattern:
+    console:
+
