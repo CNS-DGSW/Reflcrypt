@@ -1,8 +1,5 @@
 package com.swcns.reflcrypt;
 
-import com.swcns.reflcrypt.annotation.DecryptParams;
-import com.swcns.reflcrypt.annotation.EncryptParams;
-import com.swcns.reflcrypt.annotation.EncryptReturns;
 import com.swcns.reflcrypt.util.ObjectEncryptor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

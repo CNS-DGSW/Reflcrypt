@@ -29,8 +29,15 @@ public class ObjectDecryptor {
         for(Field field : fields) {
             field.setAccessible(true);
             if (field.getAnnotation(SecurityField.class) != null) {
-                Object decrypted = manager.decrypt(field.get(obj));
-                field.set(instance, decrypted);
+                if(ReflectionUtil.isCollectionType(field.get(obj))) {
+                    Collection<?> collection = (Collection<?>) field.get(obj);
+                    field.set(instance, (T) collection.stream()
+                            .map(it -> getDecryptedObject(it))
+                            .collect(Collectors.toList()));
+                }else{
+                    Object decrypted = manager.decrypt(field.get(obj));
+                    field.set(instance, decrypted);
+                }
             } else {
                 field.set(instance, field.get(obj));
             }

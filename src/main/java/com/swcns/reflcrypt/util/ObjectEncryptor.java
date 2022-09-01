@@ -23,8 +23,15 @@ public class ObjectEncryptor {
         for(Field field : fields) {
             field.setAccessible(true);
             if (field.getAnnotation(SecurityField.class) != null) {
-                Object encrypted = manager.encrypt(field.get(obj));
-                field.set(instance, encrypted);
+                if(ReflectionUtil.isCollectionType(field.get(obj))) {
+                    Collection<?> collection = (Collection<?>) field.get(obj);
+                    field.set(instance, (T) collection.stream()
+                            .map(it -> getEncryptedObject(it))
+                            .collect(Collectors.toList()));
+                }else{
+                    Object encrypted = manager.encrypt(field.get(obj));
+                    field.set(instance, encrypted);
+                }
             } else {
                 field.set(instance, field.get(obj));
             }
