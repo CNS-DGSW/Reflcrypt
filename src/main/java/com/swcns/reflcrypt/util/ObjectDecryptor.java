@@ -46,6 +46,8 @@ public class ObjectDecryptor {
     }
 
     public <T> T getDecryptedObject(T obj) {
+        if(obj == null) return obj;
+
         try {
             if(ReflectionUtil.isAbleToEncryptInstance(obj)) {
                 return decryptInstance(obj);
@@ -58,6 +60,7 @@ public class ObjectDecryptor {
                 return decryptFields(obj);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new UnsupportedOperationException("Unable to decrypt: " + obj.getClass().getName());
         }
     }

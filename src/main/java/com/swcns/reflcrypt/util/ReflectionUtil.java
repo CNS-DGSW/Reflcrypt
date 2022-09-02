@@ -30,6 +30,8 @@ public class ReflectionUtil {
      * @return
      */
     public static boolean isCharacterType(Object obj) {
+        if(obj == null) return false;
+
         final Class<?>[] qualified = new Class[] { String.class };
         return isClassContainsIn(obj, qualified);
     }
@@ -40,6 +42,8 @@ public class ReflectionUtil {
      * @return
      */
     public static boolean isBinaryType(Object obj) {
+        if(obj == null) return false;
+
         final Class<?>[] qualified = new Class[] { byte[].class, Byte[].class };
         return isClassContainsIn(obj, qualified);
     }
@@ -57,6 +61,7 @@ public class ReflectionUtil {
     }
 
     public static <T> boolean isCollectionType(T obj) {
+        if(obj == null) return false;
         return Collection.class.isAssignableFrom(obj.getClass());
     }
 }

@@ -40,6 +40,8 @@ public class ObjectEncryptor {
     }
 
     public <T> T getEncryptedObject(T obj) {
+        if(obj == null) return obj;
+
         try {
             if (ReflectionUtil.isAbleToEncryptInstance(obj)) {
                 return encryptInstance(obj);
@@ -52,6 +54,7 @@ public class ObjectEncryptor {
                 return encryptFields(obj);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new UnsupportedOperationException("Unable to encrypt: " + obj.getClass().getName());
         }
     }
